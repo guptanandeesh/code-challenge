@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="Rails code-challenge: production" uuid="f8b6f640-7dbe-49db-bb76-cda445ce8655">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
+      <user-name>code_challenge</user-name>
+    </data-source>
+    <data-source name="Rails code-challenge: development" uuid="c58c943c-4113-4f44-8ef4-9448c5d96fbe">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="POSTGRES" exact-version="0" />
+    </data-source>
+    <data-source name="Rails code-challenge: test" uuid="3101273c-3b0e-483b-9dac-fb946a960814">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
+    </data-source>
+  </component>
+</project>
