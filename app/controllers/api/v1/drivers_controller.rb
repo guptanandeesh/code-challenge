@@ -2,8 +2,6 @@ module Api::V1
   class DriversController < ApplicationController
     before_action :validate_register_params, only: :register
 
-    # include ::Concerns::Errors
-    # include ::Concerns::ErrorHandlers
     #
     # POST /api/v1/driver/register
     #
@@ -27,7 +25,7 @@ module Api::V1
     #####################
 
     def validate_register_params
-      raise BadRequest.new('Invalid Parameters') unless %i[name, email, phone_number, license_number, car_number].all? {|s| params.key? s}
+      raise BadRequest.new('Invalid Parameters') unless %i[name email phone_number license_number car_number].all? {|s| params.key? s}
     end
 
   end

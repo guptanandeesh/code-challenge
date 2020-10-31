@@ -1,61 +1,52 @@
 module Api::V1
-  class LocationsController < ::BaseController
+  class LocationsController < ApplicationController
+    before_action :validate_location_params
 
     #
-    # POST /users/change_vendor
+    # POST /send_location
     #
-    def register
-      raise BadRequest, 'Invalid Vendor' unless current_user.vendor_ids.include?(change_vendor_attributes[:vendor_id])
-
-      current_user.update!(change_vendor_attributes)
-      api_render json: { message: 'Vendor changed successfully.' }
+    def send_location
+      location = driver.location
+      if location.present?
+        location.update!(update_params)
+      else
+        ::Location.create!(update_params)
+      end
+      api_render json: { success: 'success'.freeze }, status: 202
     end
 
     #
-    # GET /users
+    # GET passenger/available_cabs
     #
-    def send_location
-      resources =  users.c_filter(index_filters)
-      render_serializer scope: resources
+    def available_cabs
+      nearby_available_cabs = ::Api::V1::Passenger.new(
+        location_params[:latitude], location_params[:longitude]
+      ).nearby_available_cabs
+      response = nearby_available_cabs.present? ? { available_cabs: nearby_available_cabs } : { "message": "No cabs available!" }
+      api_render json: response
     end
 
     private
 
-    def users
-      @users ||= current_vendor.users
+    def driver
+      @driver ||= ::Driver.find(params[:driver_id])
     end
 
-    #
-    # Attributes for change_vendor action
-    #
-    def change_vendor_attributes
-      params.permit(:vendor_id)
+    def update_params
+      params.permit(:latitude, :longitude, :driver_id)
     end
 
-    #
-    # Filters for index action
-    #
-    def index_filters
-      params.permit(:name_filter, :group)
+    def location_params
+      params.permit(:latitude, :longitude)
     end
 
     #####################
-    #### VALIDATIONS ####
+    #VALIDATIONS#
     #####################
 
-    #
-    # Validations for update action
-    #
-    def valid_change_vendor?
-      param! :vendor_id, Integer, required: true
+    def validate_location_params
+      raise BadRequest.new('Invalid Parameters') unless (params[:latitude].present? && params[:longitude].present?)
     end
 
-    #
-    # Validate index action
-    #
-    def valid_index?
-      param! :name_filter, String, blank: false
-      param! :group, String, blank: false
-    end
   end
 end

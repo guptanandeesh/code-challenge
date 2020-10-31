@@ -5,6 +5,6 @@ class Location < ApplicationRecord
 
   validates_presence_of :latitude, :longitude
 
-  validates_uniqueness_of :time, scope: :driver_id
+  validates_uniqueness_of :driver_id
 
 end

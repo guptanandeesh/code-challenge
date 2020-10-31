@@ -1,5 +1,4 @@
-module Concerns
-  module ErrorHandlers
+module Api::V1::ErrorHandlers
   extend ::ActiveSupport::Concern
 
   def render_bad_request(err)
@@ -16,5 +15,5 @@ module Concerns
   def json_error(message)
     { message: message }
   end
-end
+
 end

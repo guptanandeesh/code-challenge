@@ -5,7 +5,7 @@ module Localizable
     scope :near, -> lat, lng, radius {
       d =-> b { destination_point(lat, lng, b, radius) }
       where(["latitude BETWEEN ? AND ? AND longitude BETWEEN ? AND ?", d[180][:lat], d[0][:lat], d[270][:lng], d[90][:lng]])
-          .where(["COALESCE(distance(?, ?, latitude, longitude), 0) < ?", lat, lng, radius])
+          .where(["COALESCE(geodistance(?, ?, latitude, longitude), 0) < ?", lat, lng, radius])
     }
   end
 

@@ -1,5 +1,6 @@
-module Concerns::Errors
+module Api::V1::Errors
   extend ::ActiveSupport::Concern
+
 
   included do
     rescue_from ActiveRecord::RecordInvalid, with: :render_bad_request
